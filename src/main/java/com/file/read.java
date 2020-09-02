@@ -16,7 +16,7 @@ public class read {
 		final List<String> records = new ArrayList<String>();
 	  	try
 	  	{
-	  	  	final BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/target/classes/"+file));
+	  	  	final BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/target/classes/data/"+file));
 	  	  	String line;
 	  	  	while ((line = reader.readLine()) != null)
 	  	  	{

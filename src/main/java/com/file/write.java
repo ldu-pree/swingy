@@ -12,7 +12,7 @@ import java.util.List;
 public class write {
 	public static void writeF(String file, String line) {
 		try {
-			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/"+file);
+			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/data/"+file);
 			myWriter.write(line);
 			myWriter.close();
 		} catch (IOException e) {
@@ -24,7 +24,7 @@ public class write {
 		try {
 			List<String> lines = com.file.read.readF(file);
 			lines.add(line);
-			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/"+file);
+			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/data/"+file);
 			for (String newL : lines){
 				myWriter.write(newL+"\n");
 			}

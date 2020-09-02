@@ -10,7 +10,7 @@ import java.io.IOException;
 public class create {
 	public static void createFile(String name) {
 		try {
-			final File myObj = new File(System.getProperty("user.dir")+"/target/classes/"+name+".txt");
+			final File myObj = new File(System.getProperty("user.dir")+"/target/classes/data/"+name);
 			if (myObj.createNewFile()) {
 			} else {
 				if (myObj.delete()) { 
@@ -20,7 +20,7 @@ public class create {
 				  }
 			}
 		} catch (final IOException e) {
-			System.err.format(prefixes.Swingy_R + "An error occurred creating " + name + ".txt%n");
+			System.err.format(prefixes.Swingy_R + "An error occurred creating " + name + "%n");
 			e.printStackTrace();
 		}
 	}

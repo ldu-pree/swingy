@@ -16,7 +16,7 @@ public class create {
 	private static InputStream stream = System.in;
 	private static Scanner scanner = new Scanner(stream);
 	public static List<String> createHero() {
-		List<String> Heroes = com.file.read.readF("Heroes.txt");
+		List<String> Heroes = com.file.read.readF("Swingy.data");
 		Hero Hero = new Hero();
 		String Name = "";
 		while (Name.equals("")){
@@ -27,14 +27,14 @@ public class create {
 
 		} else {
 			Heroes.add(Hero.Name);
-			com.file.write.writeL("Heroes.txt", Hero.Name);
+			com.file.write.writeL("Swingy.data", Hero.Name);
 		}
-		com.file.create.createFile(Hero.Name);
+		com.file.create.createFile(Hero.Name+".hero");
 		printClasses();
 		String inputClass = scanner.next();
 		if (verInp(inputClass)){
 			Hero.Class = inputClass;
-			com.file.write.writeL("Heroes.txt", Hero.Name);
+			com.file.write.writeL("Swingy.data", Hero.Name);
 		}
 		return Heroes;
 	}

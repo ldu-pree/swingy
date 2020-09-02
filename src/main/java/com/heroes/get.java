@@ -15,7 +15,7 @@ public class get {
 	private static InputStream stream = System.in;
 	private static Scanner scanner = new Scanner(stream);
 	public static List<String> getHeroes() {
-		final List<String> Heroes = com.file.read.readF("Heroes.txt");
+		final List<String> Heroes = com.file.read.readF("Swingy.data");
 		if (Heroes.size() == 0){
 			System.out.printf(prefixes.Swingy_B + "You Don't Have Any Heroes Yet, Lets Create One!%n");
 			return create.createHero();
