@@ -11,5 +11,5 @@ public class Hero {
 	public Object Class;
 	public int Level;
 	public int Experience;
-	public List<Artifacts> Artifacts;
+	public List<Artifacts> Artifacts = new ArrayList<Artifacts>();
 }

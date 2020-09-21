@@ -4,6 +4,7 @@ import com.swingy.prefixes;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,20 @@ public class write {
 		try {
 			List<String> lines = com.file.read.readF(file);
 			lines.add(line);
+			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/data/"+file);
+			for (String newL : lines){
+				myWriter.write(newL+"\n");
+			}
+			myWriter.close();
+		} catch (IOException e) {
+			System.err.format(prefixes.Swingy_R + "An error occurred writing to " + file);
+			e.printStackTrace();
+		}
+	}
+	public static void writeSL(String file, String line, int index) {
+		try {
+			List<String> lines = com.file.read.readF(file);
+			lines.set(index, line);
 			final FileWriter myWriter = new FileWriter(System.getProperty("user.dir")+"/target/classes/data/"+file);
 			for (String newL : lines){
 				myWriter.write(newL+"\n");

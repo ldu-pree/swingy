@@ -23,25 +23,36 @@ public class create {
 			Name = promptName(Heroes);
 		}
 		Hero.Name = Name;
-		if (nameExists(Heroes, Name)){
-
-		} else {
-			Heroes.add(Hero.Name);
-			com.file.write.writeL("Swingy.data", Hero.Name);
-		}
 		com.file.create.createFile(Hero.Name+".hero");
-		printClasses();
-		String inputClass = scanner.next();
-		if (verInp(inputClass)){
-			Hero.Class = inputClass;
-			com.file.write.writeL("Swingy.data", Hero.Name);
+		while(!classesPrompt(Hero)){
+
 		}
+		System.out.printf(prefixes.Swingy_B_C_Classes + "Successfully Selected A Class!%n");
+		com.file.write.writeL(Hero.Name+".hero", "Level:0");
+		com.file.write.writeL(Hero.Name+".hero", "XP:0");
+		com.file.write.writeL(Hero.Name+".hero", "Artifacts:Sword=Attack=5=Shiny Silver Attack Booster#Leather Jacket=Defence=2=Heavy Leather Jacket Helps Defence A Bit");
+		Heroes.add(Name);
 		return Heroes;
 	}
 	private static void printClasses() {
 		System.out.printf(prefixes.Swingy_B_C + "Select A Class From The Below List:%n");
 			System.out.printf(prefixes.Swingy_B_C_Classes + "Elf: %s%n",Elf.Description);
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Mage: %s%n",Mage.Description);
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Paladin: %s%n",Paladin.Description);
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Troll: %s%n",Troll.Description);
 		System.out.printf(prefixes.Swingy_B_C + "Type The Name Of The Class: ");
+	}
+	private static boolean classesPrompt(Hero Hero) {
+		printClasses();
+		String inputClass = scanner.next();
+		if (verInp(inputClass)){
+			Hero.Class = inputClass;
+			com.file.write.writeL(Hero.Name+".hero", "Class:"+inputClass.substring(0, 1).toUpperCase() + inputClass.substring(1));
+			return true;
+		} else {
+			System.out.printf(prefixes.Swingy_R_C_Classes + "Invalid Class Name%n");
+			return false;
+		}
 	}
 	private static String promptName(List<String> Heroes) {
 		System.out.printf(prefixes.Swingy_B_C + "Type A Name For Your Hero: ");
@@ -55,15 +66,8 @@ public class create {
 				}
 			}
 		}
+		com.file.write.writeL("Swingy.data", Name);
 		return Name;
-	}
-	private static boolean nameExists(List<String> Heroes, String Name) {
-		for (String Hero : Heroes){
-			if (Hero.equals(Name)){
-				return true;
-			}
-		}
-		return false;
 	}
 	private static boolean promptOverite() {
 		System.out.printf(prefixes.Swingy_R_C + "A Hero With This name Already Exists Would You Like To Overite It? (Y/N): ");
@@ -77,7 +81,7 @@ public class create {
 	}
 	private static boolean verInp(String CName){
 		for (String class1 : com.heroes.Classes.AllClasses.Classes){
-			if (CName.equals(class1)){
+			if (CName.equals(class1) || CName.toLowerCase().equals(class1.toLowerCase())){
 				return true;
 			}
 		}
