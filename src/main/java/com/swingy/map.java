@@ -19,6 +19,11 @@ public class map {
 		{"Parrot","Spider","Hydra","Cougar"},
 		{"Worm","Scorpion","Panther","Lion"}
 	};
+	public static String[][] enemiesW = {
+		{"Fangs","Bananas","Dance Moves","Claws"},
+		{"Jokes","Webs","Arguements","Powerfull Pounce With Sharp Claws"},
+		{"Wiggle","Sting","Misterious Pink Power","Roar"}
+	};
 	public static int cX = 0;
 	public static int cY = 0;
 	public static int pcX = 0;
@@ -78,6 +83,15 @@ public class map {
 	public static void printMap() {
 		int level = com.swingy.app.CurrentHero.Level;
 		int mapWidth = (level-1)*5+10-(level%2);
+		File tmpDir = new File(System.getProperty("user.dir")+"/target/classes/data/swingy.config");
+		if(tmpDir.exists() && !com.swingy.app.levelFinish){
+			List<String> lines = com.file.read.readF("swingy.config");
+			if (lines.get(0).split(":")[1].strip().equals("t")){
+				com.globals.variables.ShowEnemies = true;
+			}	else {
+				com.globals.variables.ShowEnemies = false;
+			}
+		}
 		System.out.printf("__");
 		for (int i = 0; i < mapWidth; i++) {
 			System.out.printf("__");
@@ -91,14 +105,19 @@ public class map {
 				} else if (map[i][j] == 3){
 					System.out.printf("%s",prefixes.Swingy_M_P);
 				} else if (map[i][j] >= 5 && map[i][j] <= 8){
-					if (map[i][j] == 5){
-						System.out.printf("%s",prefixes.Swingy_M_E_1);
-					} else if (map[i][j] == 6){
-						System.out.printf("%s",prefixes.Swingy_M_E_2);
-					} else if (map[i][j] == 7){
-						System.out.printf("%s",prefixes.Swingy_M_E_3);
-					} else if (map[i][j] == 8){
-						System.out.printf("%s",prefixes.Swingy_M_E_4);
+					if (com.globals.variables.ShowEnemies){
+						if (map[i][j] == 5){
+							System.out.printf("%s",prefixes.Swingy_M_E_1);
+						} else if (map[i][j] == 6){
+							System.out.printf("%s",prefixes.Swingy_M_E_2);
+						} else if (map[i][j] == 7){
+							System.out.printf("%s",prefixes.Swingy_M_E_3);
+						} else if (map[i][j] == 8){
+							System.out.printf("%s",prefixes.Swingy_M_E_4);
+						}
+
+					} else {
+						System.out.printf("%s",prefixes.Swingy_M_G);
 					}
 				} else if (map[i][j] == 2) {
 					System.out.printf("%s",prefixes.Swingy_M_C);

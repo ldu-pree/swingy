@@ -49,4 +49,13 @@ public class prefixes {
 	
 	public static final String Swingy_B_F = ANSI_WHITE + "[" + ANSI_BLUE + "Swingy->"+ANSI_YELLOW+"Fight!" + ANSI_WHITE + "] ";
 	public static final String Swingy_R_F = ANSI_WHITE + "[" + ANSI_RED + "Swingy->"+ANSI_YELLOW+"Fight!" + ANSI_WHITE + "] ";
+	
+	public static final String Swingy_B_D = ANSI_WHITE + "[" + ANSI_BLUE + "Swingy->"+ANSI_YELLOW+"Loot!" + ANSI_WHITE + "] ";
+	public static final String Swingy_R_D = ANSI_WHITE + "[" + ANSI_RED + "Swingy->"+ANSI_YELLOW+"Loot!" + ANSI_WHITE + "] ";
+	
+	public static final String Swingy_B_F_A = ANSI_WHITE + "[" + ANSI_BLUE + "Swingy->"+ANSI_YELLOW+"Fight!->" +ANSI_BLACK+"Attack" + ANSI_WHITE + "] ";
+	public static final String Swingy_R_F_A = ANSI_WHITE + "[" + ANSI_RED + "Swingy->"+ANSI_YELLOW+"Fight!->" +ANSI_BLACK+"Attack" + ANSI_WHITE + "] ";
+	
+	public static final String Swingy_B_F_D = ANSI_WHITE + "[" + ANSI_BLUE + "Swingy->"+ANSI_YELLOW+"Fight!->" +ANSI_CYAN+"Defend" + ANSI_WHITE + "] ";
+	public static final String Swingy_R_F_D = ANSI_WHITE + "[" + ANSI_RED + "Swingy->"+ANSI_YELLOW+"Fight!->" +ANSI_CYAN+"Defend" + ANSI_WHITE + "] ";
 }

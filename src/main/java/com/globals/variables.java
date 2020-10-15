@@ -14,6 +14,8 @@ import javax.validation.constraints.*;
  */
 public class variables {
 	public static String operationMode;
+	public static boolean ShowEnemies = true;
+	public static boolean useWASD = false;
 
 	//GUI
 	public static JTextArea guiTextArea;

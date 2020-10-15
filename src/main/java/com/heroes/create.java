@@ -30,16 +30,20 @@ public class create {
 		System.out.printf(prefixes.Swingy_B_C_Classes + "Successfully Selected A Class!%n");
 		com.file.write.writeL(Hero.Name+".hero", "Level:0");
 		com.file.write.writeL(Hero.Name+".hero", "XP:0");
-		com.file.write.writeL(Hero.Name+".hero", "Artifacts:Sword=Attack=5=Shiny Silver Attack Booster#Leather Jacket=Defence=2=Heavy Leather Jacket Helps Defence A Bit");
+		com.file.write.writeL(Hero.Name+".hero", "Artifacts:Sword=Attack=5=Shiny Silver Attack Booster#Leather Jacket=Defense=2=Heavy Leather Jacket Helps Defense A Bit");
 		Heroes.add(Name);
 		return Heroes;
 	}
 	private static void printClasses() {
+		com.heroes.Classes.Elf elf = new com.heroes.Classes.Elf();
+		com.heroes.Classes.Mage mage = new com.heroes.Classes.Mage();
+		com.heroes.Classes.Paladin paladin = new com.heroes.Classes.Paladin();
+		com.heroes.Classes.Troll troll = new com.heroes.Classes.Troll();
 		System.out.printf(prefixes.Swingy_B_C + "Select A Class From The Below List:%n");
-			System.out.printf(prefixes.Swingy_B_C_Classes + "Elf: %s%n",Elf.Description);
-			System.out.printf(prefixes.Swingy_B_C_Classes + "Mage: %s%n",Mage.Description);
-			System.out.printf(prefixes.Swingy_B_C_Classes + "Paladin: %s%n",Paladin.Description);
-			System.out.printf(prefixes.Swingy_B_C_Classes + "Troll: %s%n",Troll.Description);
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Elf: %s%n",elf.GetDescription());
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Mage: %s%n",mage.GetDescription());
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Paladin: %s%n",paladin.GetDescription());
+			System.out.printf(prefixes.Swingy_B_C_Classes + "Troll: %s%n",troll.GetDescription());
 		System.out.printf(prefixes.Swingy_B_C + "Type The Name Of The Class: ");
 	}
 	private static boolean classesPrompt(Hero Hero) {

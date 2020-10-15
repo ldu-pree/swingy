@@ -8,11 +8,14 @@ import java.io.File;
 import java.net.URL;
 import java.io.InputStream;
 import java.util.Scanner;
+
+import javax.management.monitor.Monitor;
 import javax.swing.*;
 import java.awt.*;
 import javax.validation.*;
 import javax.validation.constraints.*;
 import com.globals.*;
+import java.util.Random;
 
 public class app {
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -30,6 +33,27 @@ public class app {
 	public static Hero CurrentHero = new Hero();
 	public static boolean isDead = false;
 	public static boolean levelFinish = false;
+
+	private static String[][] drops = {{
+		"Wooden Sword",
+		"Wooden Axe",
+		"Wooden Staff"
+	},
+	{
+		"Iron Sword",
+		"Iron Axe",
+		"Iron Staff"
+	},
+	{
+		"Golden Sword",
+		"Golden Axe",
+		"Golden Staff"
+	},
+	{
+		"Titanium Sword",
+		"Titanium Axe",
+		"Titanium Staff"
+	}};
 
 	public static void main(final String[] args) {
 		System.out.println(prefixes.Swingy_B + "Welcome To Swingy!!!");
@@ -67,7 +91,7 @@ public class app {
 		if (prompt.equals("S") || prompt.equals("s") || prompt.equals("Select") || prompt.equals("select")){
 			selectHero(Heroes);
 		}if (prompt.equals("C") || prompt.equals("c") || prompt.equals("Create") || prompt.equals("create")){
-			com.heroes.create.createHero();
+			selectHero(com.heroes.create.createHero());
 		}
 	}
 
@@ -112,32 +136,207 @@ public class app {
 		int mapWidth = (level-1)*5+10-(level%2);
 		System.out.printf(prefixes.Swingy_B_F + "You Have Encountered A %s What Do You Do? (Run/Fight): ", map.enemies[lvl][map.map[(((mapWidth+1)/2)-1)-map.cY][(((mapWidth+1)/2)-1)+map.cX]-5]);
 		String prompt = scanner.next();
+		String monster = map.enemies[lvl][map.map[(((mapWidth+1)/2)-1)-map.cY][(((mapWidth+1)/2)-1)+map.cX]-5];
+		String monsterW = map.enemiesW[lvl][map.map[(((mapWidth+1)/2)-1)-map.cY][(((mapWidth+1)/2)-1)+map.cX]-5];
 		if (prompt.equals("Run") || prompt.equals("run") || prompt.equals("r")) {
-			map.cY = map.pcY;
-			map.cX = map.pcX;
+			Random r2 = new Random();
+			int low2 = 0;
+			int high2 = 100;
+			int result2 = r2.nextInt(high2-low2) + low2;
+			if (result2 >= 0 && result2 < 50){
+				map.cY = map.pcY;
+				map.cX = map.pcX;
+				System.out.printf(prefixes.Swingy_B_F + "You Chose To Run From The %s? You're A Coward But A Fast One, So You Escape Barely!!!%n", monster);
+			} else {
+				System.out.printf(prefixes.Swingy_B_F + "You Chose To Run From The %s? You Tried To Run But Fell Over A Bag Of Nuts! Now You Must Face The %s!%n", monster, monster);
+				fighting(monster,monsterW);
+			}
 		} else if (prompt.equals("Fight") || prompt.equals("fight") || prompt.equals("f")) {
+			fighting(monster,monsterW);
+		}
+	}
+
+	private static void fighting(String monster, String weapon) {
+		System.out.printf(prefixes.Swingy_B_F + "The %s Unleashes It's %s Upon You How Do You Answer This Devious Act?:%n", monster, weapon);
+		promptAction2(monster);
+		int level = CurrentHero.Level;
+		int mapWidth = (level-1)*5+10-(level%2);
+		map.map[(((mapWidth+1)/2)-1)-map.pcY][(((mapWidth+1)/2)-1)+map.pcX] = 3;
+		map.map[(((mapWidth+1)/2)-1)-map.cY][(((mapWidth+1)/2)-1)+map.cX] = 2;
+	}
+
+	private static void promptAction2(String monster) {
+		System.out.printf(prefixes.Swingy_B_F + "Would you like to defend yourself from the %s? or fight back and attack the %s?(a/d): ", monster, monster);
+		String prompt = scanner.next();
+		if (prompt.toLowerCase().equals("d") || prompt.toLowerCase().equals("defense") || prompt.toLowerCase().equals("def")){
+			promptDefense();
+		} else if (prompt.toLowerCase().equals("a") || prompt.toLowerCase().equals("attack") || prompt.toLowerCase().equals("att")){
+			promptAttack(monster);
+		} else {
+			System.out.printf(prefixes.Swingy_R_F + "Invalid option, please make use of (defense/d/def) or (attack/a/att)%n");
+			promptAction2(monster);
+		}
+	}
+	private static void promptAttack(String monster) {
+		System.out.printf(prefixes.Swingy_B_F + "What Would You Like To Attack With?%n");
+		int i = 0;
+		for (Artifacts artw : CurrentHero.Artifacts){
+			if (artw.Type.equals("Attack")){
+				System.out.printf(prefixes.Swingy_B_F_A + "%d: A %s with %d Attack Buff?%n",i,artw.Name,artw.Stat);
+				i++;
+			}
+		}
+		String prompt = scanner.next();
+		int selected = -1;
+		try {
+			selected = Integer.parseInt(prompt);
+		} catch (NumberFormatException nfe) {
+			System.out.printf(prefixes.Swingy_R_F + "Invalid Option, Please Select From The List%n");
+			promptAttack(monster);
+			return;
+		}
+		if (selected >= 0 && selected < i){
+			System.out.printf(prefixes.Swingy_B_F + "Selected %d%n", selected);
+			Random r2 = new Random();
+			int low2 = 0;
+			int high2 = 100;
+			int result2 = r2.nextInt(high2-low2) + low2;
+			int chance = 0;
+			int i2 = 0;
+			int j = 0;
+			for (int k = 0; k < map.enemies.length; k++) { 
+				i2 = 0;
+				for (String m2 : map.enemies[k]) {
+					if (m2.equals(monster)){
+						if (i2 == 0) {
+							chance = 60;
+						} else if (i2 == 1) {
+							chance = 50;
+						} else if (i2 == 2) {
+							chance = 35;
+						} else if (i2 == 3) {
+							chance = 20;
+						}
+					}
+					i2++;
+				}
+				j++;
+        	}
+			if (result2 >= 0 && result2 < chance){
+				map.cY = map.pcY;
+				map.cX = map.pcX;
+				System.out.printf(prefixes.Swingy_B_F + "You Tried To Attack The %s. But It's Defense Is Too High!%n", monster);
+				promptAttack(monster);
+			} else {
+				System.out.printf(prefixes.Swingy_B_F + "You Defeated The %s. Congrats!%n", monster);
+				runDropSystem(monster);
+			}
+		} else {
+			System.out.printf(prefixes.Swingy_R_F + "Invalid Option, Please Select From The List%n");
+			promptAttack(monster);
+		}
+	}
+	private static void runDropSystem(String monster) {
+		int i = 0;
+		int j = 0;
+		for (int k = 0; k < map.enemies.length; k++) { 
+			i = 0;
+			for (String m2 : map.enemies[k]) {
+				if (m2.equals(monster)){
+					System.out.printf(prefixes.Swingy_B_D + "The %s Dropped A %s, Would You Like To Keep It (Y/N):",monster,drops[i][0]);
+					String prompt = scanner.next();
+					if (prompt.equals("Y") || prompt.equals("y") || prompt.equals("Yes") || prompt.equals("yes")){
+						System.out.printf(prefixes.Swingy_B_D + "%s Picked Up%n", drops[i][0]);
+						final List<String> HData = com.file.read.readF(CurrentHero.Name+".hero");
+						for (String line : HData){
+							String[] data = line.split(":");
+							if (data[0].equals("Artifacts")){
+								com.file.write.writeSL(CurrentHero.Name+".hero", data[1]+"#"+drops[i][0]+"=Attack=2="+drops[i][0]+" Helps Attack A Bit", 3);
+							}
+						}
+					}if (prompt.equals("N") || prompt.equals("n") || prompt.equals("No") || prompt.equals("no")){
+					}
+				}
+				i++;
+			}
+			j++;
+        }
+	}
+	private static void promptDefense() {
+		System.out.printf(prefixes.Swingy_B_F + "What Would You Like To Defend With?%n");
+		int i = 0;
+		for (Artifacts artw : CurrentHero.Artifacts){
+			if (artw.Type.equals("Defense")){
+				System.out.printf(prefixes.Swingy_B_F_D + "%d: A %s with %d Defense Buff?%n",i,artw.Name,artw.Stat);
+				i++;
+			}
+		}
+		String prompt = scanner.next();
+		int selected = -1;
+		try {
+			selected = Integer.parseInt(prompt);
+		} catch (NumberFormatException nfe) {
+			System.out.printf(prefixes.Swingy_R_F + "Invalid Option, Please Select From The List%n");
+			promptDefense();
+		}
+		if (selected >= 0 && selected < i){
+			System.out.printf(prefixes.Swingy_B_F + "Selected %d%n", selected);
+		} else {
+			System.out.printf(prefixes.Swingy_R_F + "Invalid Option, Please Select From The List%n");
+			promptDefense();
 		}
 	}
 
 	private static void promptMove() {
-		System.out.printf(prefixes.Swingy_B + "(%d:%d)(%d:%d)Where Would You Like To Go? (N/E/S/W): ",map.cY,map.cX,map.pcY,map.pcX);
-		String prompt = scanner.next();
-		if (prompt.equals("N") || prompt.equals("n")){
-			map.pcY = map.cY;
-			map.pcX = map.cX;
-			map.cY += 1;
-		} else if (prompt.equals("E") || prompt.equals("e")){
-			map.pcY = map.cY;
-			map.pcX = map.cX;
-			map.cX += 1;
-		} else if (prompt.equals("S") || prompt.equals("s")){
-			map.pcY = map.cY;
-			map.pcX = map.cX;
-			map.cY -= 1;
-		} else if (prompt.equals("W") || prompt.equals("w")){
-			map.pcY = map.cY;
-			map.pcX = map.cX;
-			map.cX -= 1;
+		File tmpDir = new File(System.getProperty("user.dir")+"/target/classes/data/swingy.config");
+		if(tmpDir.exists() && !com.swingy.app.levelFinish){
+			List<String> lines = com.file.read.readF("swingy.config");
+			if (lines.get(1).split(":")[1].strip().equals("1")){
+				com.globals.variables.useWASD = false;
+			}	else {
+				com.globals.variables.useWASD = true;
+			}
+		}
+		if (com.globals.variables.useWASD){
+			System.out.printf(prefixes.Swingy_B + "(%d:%d)(%d:%d)Where Would You Like To Go? (W/A/S/D): ",map.cY,map.cX,map.pcY,map.pcX);
+			String prompt = scanner.next();
+			if (prompt.equals("W") || prompt.equals("w")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cY += 1;
+			} else if (prompt.equals("D") || prompt.equals("d")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cX += 1;
+			} else if (prompt.equals("S") || prompt.equals("s")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cY -= 1;
+			} else if (prompt.equals("A") || prompt.equals("a")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cX -= 1;
+			}
+		} else {
+			System.out.printf(prefixes.Swingy_B + "(%d:%d)(%d:%d)Where Would You Like To Go? (N/E/S/W): ",map.cY,map.cX,map.pcY,map.pcX);
+			String prompt = scanner.next();
+			if (prompt.equals("N") || prompt.equals("n")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cY += 1;
+			} else if (prompt.equals("E") || prompt.equals("e")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cX += 1;
+			} else if (prompt.equals("S") || prompt.equals("s")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cY -= 1;
+			} else if (prompt.equals("W") || prompt.equals("w")){
+				map.pcY = map.cY;
+				map.pcX = map.cX;
+				map.cX -= 1;
+			}
 		}
 		map.moveChar();
 	}

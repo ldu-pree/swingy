@@ -29,7 +29,7 @@ public class create {
 			final File myObj = new File(System.getProperty("user.dir")+"/console.bat");
 			if (myObj.createNewFile()) {
 			} else {
-				if (myObj.delete()) { 
+				if (myObj.delete()) {
 					buildExecs();
 				  } else {
 					System.err.format(prefixes.Swingy_R + "console.bat already existed and we failed to delete it.%n");
